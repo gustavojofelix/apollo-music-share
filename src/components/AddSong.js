@@ -172,8 +172,8 @@ export default function AddSong() {
             name="artist"
             label="Artist"
             fullWidth
-            error={handleError("aritst")}
-            helperText={handleError("aritst") && "Fill out the form"}
+            error={handleError("artist")}
+            helperText={handleError("artist") && "Fill out the form"}
           />
           <TextField
             value={thumbnail}
