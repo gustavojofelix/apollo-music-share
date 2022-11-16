@@ -11,15 +11,19 @@ import {
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import theme from "../theme";
+import { GET_SONGS } from "../graphql/queries";
+import { useSubscription } from "@apollo/client";
 
 export default function SongList() {
-  let loading = false;
+  //let loading = false;
 
-  const song = {
-    title: "Na Tua Presenca",
-    artist: "Vanilda Bordieri",
-    thumbnail: "https://i.ytimg.com/vi/37pmeeooejU/hqdefault.jpg",
-  };
+  const { data, loading, error } = useSubscription(GET_SONGS);
+
+  // const song = {
+  //   title: "Na Tua Presenca",
+  //   artist: "Vanilda Bordieri",
+  //   thumbnail: "https://i.ytimg.com/vi/37pmeeooejU/hqdefault.jpg",
+  // };
 
   if (loading) {
     return (
@@ -36,10 +40,15 @@ export default function SongList() {
     );
   }
 
+  if (error) {
+    console.log(error);
+    return <div>Error fetching songs</div>;
+  }
+
   return (
     <div>
-      {Array.from({ length: 10 }, () => song).map((song, i) => (
-        <Song key={i} song={song} />
+      {data.songs.map((song) => (
+        <Song key={song.id} song={song} />
       ))}
     </div>
   );
